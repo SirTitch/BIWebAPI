@@ -8,7 +8,7 @@ class UserController extends BaseController
     /**
      * "/user/list" Endpoint - Get list of users
      */
-    public function listAction()
+    public function listAction( $listType )
     {
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
@@ -22,8 +22,15 @@ class UserController extends BaseController
                 if (isset($arrQueryStringParams['limit']) && $arrQueryStringParams['limit']) {
                     $intLimit = $arrQueryStringParams['limit'];
                 }
- 
-                $arrUsers = $userModel->getUsers($intLimit);
+
+                $listFunction = "getCustomers";
+                if ($listType == "policy"){
+                    $listFunction = "getPolicies";
+                } else  if ($listType == "client"){
+                    $listFunction = "getClient";
+                }
+
+                $arrUsers = $userModel->$listFunction($intLimit);
                 $responseData = json_encode($arrUsers);
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';

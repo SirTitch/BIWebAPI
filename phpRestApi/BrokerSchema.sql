@@ -1,11 +1,11 @@
-CREATE DATABASE `brokerDB`
+CREATE DATABASE `brokerDB`;
 
-use `brokerDB`
+use `brokerDB`;
 
 CREATE TABLE `customer` (
   `customer_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `customer_name` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `customer_address` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''
+  `customer_address` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -14,36 +14,36 @@ CREATE TABLE `policy` (
   `policy_type` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `policy_premium` double NOT NULL,
   `insurer_name` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  `customer` bigint(20) UNIQUE FOREIGN KEY REFERENCES customer(customer_id),
-  PRIMARY KEY (`policy_id`)
+  `customer` bigint unsigned,
+  PRIMARY KEY (`policy_id`),
+  FOREIGN KEY (`customer`) REFERENCES `customer`(`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `client` (
   `client_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `client_name` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''
-  PRIMARY KEY (`policy_id`)
+  `client_name` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*A joining table for the client policies*/
 CREATE TABLE `client_policies` (
-  `client_id`   bigint(20)        NOT NULL,
-  `policy_id`  bigint(20)         NOT NULL,
-  KEY         (client_id),
-  KEY         (policy_id),
-  FOREIGN KEY (client_id)  REFERENCES employees   (client_id)  ON DELETE CASCADE,
-  FOREIGN KEY (policy_id) REFERENCES departments (policy_id) ON DELETE CASCADE,
-  PRIMARY KEY (client_id, policy_id)
-)
+  `client_id`   bigint unsigned        NOT NULL,
+  `policy_id`  bigint unsigned         NOT NULL,
+  KEY         (`client_id`),
+  KEY         (`policy_id`),
+  FOREIGN KEY (`client_id`)  REFERENCES `client`   (`client_id`)  ON DELETE CASCADE,
+  FOREIGN KEY (`policy_id`) REFERENCES `policy` (`policy_id`) ON DELETE CASCADE,
+  PRIMARY KEY (`client_id`, `policy_id`)
+);
 
 
-INSERT INTO customer 
-(  
+INSERT INTO customer (  
   customer_id,
   customer_name,
-  customer_address,
-)  VALUES (
-  1,
-  "ABC Joinery",
+  customer_address
+)  VALUES ( 
+  1, 
+  "ABC Joinery", 
   "12 Ascott Street, Dundee"
 );
 
@@ -51,7 +51,7 @@ INSERT INTO customer
 (  
   customer_id,
   customer_name,
-  customer_address,
+  customer_address
 ) VALUES (
   2,
   "XYZ Plumbing",
@@ -62,7 +62,7 @@ INSERT INTO customer
 (  
   customer_id,
   customer_name,
-  customer_address,
+  customer_address
 ) VALUES (
   3,
   "Fast Taxis",
@@ -74,7 +74,7 @@ INSERT INTO policy
   policy_id,
   policy_type,
   policy_premium,
-  insurer_name
+  insurer_name,
   customer
  ) VALUES (
   1,
@@ -89,13 +89,13 @@ INSERT INTO policy
   policy_id ,
   policy_type,
   policy_premium ,
-  insurer_name
+  insurer_name,
   customer
 ) VALUES (
   2,
   "Public Liability",
   2321.45,
-  "Allianz"
+  "Allianz",
   2
 );
 
@@ -103,7 +103,7 @@ INSERT INTO policy (
   policy_id ,
   policy_type,
   policy_premium ,
-  insurer_name
+  insurer_name,
   customer
 ) VALUES (
   3,
@@ -117,20 +117,19 @@ INSERT INTO policy (
   policy_id ,
   policy_type,
   policy_premium ,
-  insurer_name
+  insurer_name,
   customer
 ) VALUES (
   4,
   "Public Liability",
   6845.00,
-  "QBE"
+  "QBE",
   3
 );
 
-INSERT INTO policy (  
+INSERT INTO client (  
   client_id,
-  client_name,
-  policies,
+  client_name
 ) VALUES (
   1,
   "Achme Broker Ltd"

@@ -2,6 +2,8 @@
 require __DIR__ . "/inc/bootstrap.php";
 // https://localhost/index.php/{MODULE_NAME}/{METHOD_NAME}?limit={LIMIT_VALUE} 
 
+//Start PHP server
+//php -S 127.0.0.1:8000 -t public
 //initialize URI segments into a variable
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); 
 $uri = explode( '/', $uri );
@@ -17,5 +19,5 @@ require PROJECT_ROOT_PATH . "/controller/api/userController.php";
  
 $objFeedController = new UserController();
 $strMethodName = $uri[3] . 'Action';
-$objFeedController->{$strMethodName}();
+$objFeedController->{$strMethodName}($uri[4] ? $uri[4] : "" );
 ?>

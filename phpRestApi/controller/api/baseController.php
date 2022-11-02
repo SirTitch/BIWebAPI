@@ -2,15 +2,6 @@
 class BaseController
 {
     /**
-     * __call magic method.
-     * Error handler, called when a call to the api is made whih
-     */
-    public function __call($name, $arguments)
-    {
-        $this->sendOutput('', array('HTTP/1.1 404 Not Found'));
-    }
- 
-    /**
      * Get URI elements.
      *  Splits up the URI and returns as an array to allow for
      *  the validation of the REST endpoint
@@ -53,5 +44,14 @@ class BaseController
  
         echo $data;
         exit;
+    }
+
+    /**
+     * __call magic method.
+     * Error handler, called when a call to the api is made whih
+     */
+    public function __call($name, $arguments)
+    {
+        $this->sendOutput('', array('HTTP/1.1 404 Not Found'));
     }
 }
