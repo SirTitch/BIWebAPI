@@ -1,4 +1,8 @@
-<?php
+<?php  
+header('Access-Control-Allow-Origin: *'); 
+// header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+header("HTTP/1.1 200 OK");
 require __DIR__ . "/inc/bootstrap.php";
 // https://localhost/index.php/{MODULE_NAME}/{METHOD_NAME}?limit={LIMIT_VALUE} 
 
@@ -19,5 +23,9 @@ require PROJECT_ROOT_PATH . "/controller/api/userController.php";
  
 $objFeedController = new UserController();
 $strMethodName = $uri[3] . 'Action';
-$objFeedController->{$strMethodName}($uri[4] ? $uri[4] : "" );
+$strFunctionName = "";
+if (count($uri) > 4){
+    $strFunctionName = $uri[4];
+}
+$objFeedController->{$strMethodName}($strFunctionName);
 ?>

@@ -1,2 +1,30 @@
 /phpRestApi/node_modules
 .vs
+# Logs
+logs
+*.log
+/vueJSFrontend/npm-debug.log*
+/vueJSFrontend/yarn-debug.log*
+/vueJSFrontend/yarn-error.log*
+/vueJSFrontend/pnpm-debug.log*
+/vueJSFrontend/lerna-debug.log*
+
+/vueJSFrontend/node_modules
+/vueJSFrontend/.DS_Store
+/vueJSFrontend/dist
+/vueJSFrontend/dist-ssr
+/vueJSFrontend/coverage
+/vueJSFrontend/*.local
+
+/vueJSFrontend//cypress/videos/
+/vueJSFrontend//cypress/screenshots/
+
+# Editor directories and files
+/vueJSFrontend/.vscode/*
+!/vueJSFrontend/.vscode/extensions.json
+/vueJSFrontend/.idea
+*/vueJSFrontend/.suo
+*/vueJSFrontend/.ntvs*
+*/vueJSFrontend/.njsproj
+*/vueJSFrontend/.sln
+*/vueJSFrontend/.sw?

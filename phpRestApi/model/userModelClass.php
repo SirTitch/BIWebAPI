@@ -1,6 +1,6 @@
 <?php
 require_once PROJECT_ROOT_PATH . "/Model/databaseClass.php";
- 
+header('Access-Control-Allow-Origin: *'); 
 class UserModel extends Database
 {
     //Function gets the users, using the database class

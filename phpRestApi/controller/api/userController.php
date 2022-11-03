@@ -3,6 +3,7 @@
  * The userController Class will extend form the baseController
  * Contains the action methods associated with the REST endpoints that are defined for the user entity
  */
+header('Access-Control-Allow-Origin: *'); 
 class UserController extends BaseController
 {
     /**
@@ -22,7 +23,7 @@ class UserController extends BaseController
                 if (isset($arrQueryStringParams['limit']) && $arrQueryStringParams['limit']) {
                     $intLimit = $arrQueryStringParams['limit'];
                 }
-
+                // Handle which function to run based on the url request made
                 $listFunction = "getCustomers";
                 if ($listType == "policy"){
                     $listFunction = "getPolicies";
