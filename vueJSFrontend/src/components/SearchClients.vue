@@ -5,24 +5,22 @@
                 <h2>Please Enter Client Name</h2>
                 <form>
                     <div class="row">
-                        <div>
-                            <label htmlFor="exampleInputEmail1"
-                                >Client Name:
-                            </label>
+                        <div class="searchBar">
+                            <label class="searchBarLabel">Client Name: </label>
                             <input
                                 type="text"
-                                class="form-control"
+                                class="searchBarinput"
                                 v-model="clientName"
                                 name="clientname"
                                 id="clientname"
-                                aria-describedby="emailHelp"
                                 placeholder="Client Name"
                             />
                             <button
+                                class="searchBarbutton"
                                 type="button"
                                 @click="clientSearch()"
-                                class="btn btn-danger"
                             >
+                                <i class="fa fa-search"></i>
                                 Search
                             </button>
                         </div>
@@ -116,3 +114,18 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.searchBar {
+    padding: 5px;
+}
+
+.searchBarLabel {
+}
+.searchBarinput {
+    padding: 5px;
+}
+.searchBarbutton {
+    padding: 5px;
+}
+</style>

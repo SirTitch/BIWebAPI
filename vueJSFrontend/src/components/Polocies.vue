@@ -1,6 +1,11 @@
 <template>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <div class="container"></div>
-    <div>
+    <div></div>
+    <div class="tableWrapper">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -9,9 +14,10 @@
                         <button
                             type="button"
                             @click="FilterPolicy('p.policy_type')"
-                            class="btn btn-danger"
+                            class="headerButton"
                         >
                             Policy Type
+                            <i class="fa fa-sort"></i>
                         </button>
                     </th>
                     <th>Policy Premium</th>
@@ -28,6 +34,15 @@
                     <td>{{ item.insurer_name }}</td>
                     <td>{{ item.customer_name }}</td>
                     <td>{{ item.customer_address }}</td>
+                    <td>
+                        <button
+                            type="button"
+                            @click="editPolicy(item)"
+                            class="fa fa-edit"
+                        >
+                            Edit Policy
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -101,3 +116,30 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.tableWrapper {
+    padding: 1%;
+    width: 100%;
+}
+
+.headerButton {
+    border: none;
+    background-color: inherit;
+    color: inherit;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+.editButton {
+    /* border: none; */
+    /* background-color: inherit; */
+    /* color: inherit; */
+    text-align: center;
+    /* text-decoration: none; */
+    cursor: pointer;
+    height: 100%;
+}
+.tableContainer {
+}
+</style>
