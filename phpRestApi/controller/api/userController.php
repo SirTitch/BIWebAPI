@@ -4,6 +4,7 @@
  * Contains the action methods associated with the REST endpoints that are defined for the user entity
  */
 header('Access-Control-Allow-Origin: *'); 
+require_once PROJECT_ROOT_PATH . "/controller/api/baseController.php";
 class UserController extends BaseController
 {
     /**
@@ -14,24 +15,38 @@ class UserController extends BaseController
         $strErrorDesc = '';
         $requestMethod = $_SERVER["REQUEST_METHOD"];
         $arrQueryStringParams = $this->getQueryStringParams(); //Split up the request
- 
+        // $this->test();
         if (strtoupper($requestMethod) == 'GET') { // Check if the request is a GET
             try {
                 $userModel = new UserModel();
  
-                $intLimit = 10;
-                if (isset($arrQueryStringParams['limit']) && $arrQueryStringParams['limit']) {
-                    $intLimit = $arrQueryStringParams['limit'];
+                // $intLimit = 10;
+                $initSearch ="";
+                $initOrderBy = "";
+                // if (isset($arrQueryStringParams['limit']) && $arrQueryStringParams['limit']) {
+                //     print($arrQueryStringParams['limit']);
+                //     $initSearch = $arrQueryStringParams['limit'];
+                // }
+                // print($arrQueryStringParams['search']);
+                if (isset($arrQueryStringParams['searchTerm']) && $arrQueryStringParams['searchTerm']) {
+                    $initSearch = $arrQueryStringParams['searchTerm'];
                 }
+                
+                if (isset($arrQueryStringParams['orderBy']) && $arrQueryStringParams['orderBy']) {
+                    $initOrderBy = $arrQueryStringParams['orderBy'];
+                }
+
                 // Handle which function to run based on the url request made
                 $listFunction = "getCustomers";
                 if ($listType == "policy"){
                     $listFunction = "getPolicies";
                 } else  if ($listType == "client"){
                     $listFunction = "getClient";
+                } else if ($listType == "clientPolicy"){
+                    $listFunction = "getClientPolocies";
                 }
-
-                $arrUsers = $userModel->$listFunction($intLimit);
+                // print($initOrderBy);
+                $arrUsers = $userModel->$listFunction($initSearch, $initOrderBy);
                 $responseData = json_encode($arrUsers);
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';

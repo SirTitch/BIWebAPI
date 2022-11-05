@@ -1,48 +1,59 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-import Header from './components/Header.vue'
-import SearchClients from './components/SearchClients.vue'
-import Polocies from './components/Polocies.vue'
-</script>
-
 <template>
-    <Header />
-    <!-- <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" /> -->
-
-    <main>
-        <SearchClients
-            v-if="!displayPolicies"
-            @display-Policies="displayPoliciesFunction"
-        />
-        <Polocies
-            v-if="displayPolicies && responseAvailable"
-            @displaypolicies="displayPoliciesFunction"
-            :polocies="clientPolocies"
-            :clientId="clientId"
-        />
-    </main>
+    <div class="container"></div>
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Policy Id</th>
+                    <th>
+                        <button
+                            type="button"
+                            @click="FilterPolicy('p.policy_type')"
+                            class="btn btn-danger"
+                        >
+                            Policy Type
+                        </button>
+                    </th>
+                    <th>Policy Premium</th>
+                    <th>Insurer name</th>
+                    <th>Customer Name</th>
+                    <th>Customer Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in polociesArr" :key="item.id">
+                    <td>{{ item.policy_id }}</td>
+                    <td>{{ item.policy_type }}</td>
+                    <td>{{ item.policy_premium }}</td>
+                    <td>{{ item.insurer_name }}</td>
+                    <td>{{ item.customer_name }}</td>
+                    <td>{{ item.customer_address }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </template>
+
 <script>
 export default {
-    name: 'App',
+    name: 'Polocies',
     components: {},
+    props: {
+        method: { type: Function },
+        clientId: { type: Number },
+    },
     data() {
         return {
+            polociesArr: [],
             displayPolicies: false,
-            clientId: '',
-            clientPolocies: [],
             responseAvailable: false,
         }
     },
-    emits: ['displaypolicies'],
     methods: {
-        displayPoliciesFunction(id, orderBy) {
-            // this.responseAvailable = false
-            // this.displayPolicies = false
+        FilterPolicy(orderBy) {
             let orderByVar = 'p.policyId'
-            if (id !== this.clientId) {
-                this.clientId = id
+            if (this.clientId) {
+                let id = this.clientId
                 orderByVar = 'p.policy_Id'
                 if (orderBy != undefined) {
                     orderByVar = orderBy
@@ -75,7 +86,7 @@ export default {
                     })
                     .then((response) => {
                         console.log('-----------------------', response)
-                        this.clientPolocies = response
+                        this.polociesArr = response
                         this.responseAvailable = true
                     })
                     .catch((err) => {
@@ -85,34 +96,8 @@ export default {
             }
         },
     },
-    start(_, { emit }) {},
+    beforeMount() {
+        this.FilterPolicy('p.policy_id')
+    },
 }
 </script>
-
-<style scoped>
-/* .logo {
-  display: block;
-  margin: 0 auto 2rem;
-} */
-
-/* @media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-center;
-    flex-wrap: wrap;
-    border-width: 2px;
-    border-color: brown;
-    background-color:crimson;
-  }
-} */
-</style>

@@ -25,7 +25,7 @@ class Database
             $stmt = $this->executeStatement( $query , $params );
             $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);               
             $stmt->close();
- 
+            // print($query);
             return $result;
         } catch(Exception $e) {
             throw New Exception( $e->getMessage() );
@@ -42,11 +42,11 @@ class Database
             if($stmt === false) {
                 throw New Exception("Unable to do prepared statement: " . $query);
             }
- 
+            // print_r($params);
             if( $params ) {
-                $stmt->bind_param($params[0], $params[1]);
+                $stmt->bind_param(...$params);
             }
- 
+
             $stmt->execute();
  
             return $stmt;

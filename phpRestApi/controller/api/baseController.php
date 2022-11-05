@@ -3,6 +3,14 @@ header('Access-Control-Allow-Origin: *');
 class BaseController
 {
     /**
+     * __call magic method.
+     * Error handler, called when a call to the api is made whih
+     */
+    public function __call($name, $arguments)
+    {
+        $this->sendOutput('', array('HTTP/1.1 404 Not Found'));
+    }
+    /**
      * Get URI elements.
      *  Splits up the URI and returns as an array to allow for
      *  the validation of the REST endpoint
@@ -24,7 +32,9 @@ class BaseController
      */
     protected function getQueryStringParams()
     {
-        return parse_str($_SERVER['QUERY_STRING'], $query);
+        $query;
+        parse_str($_SERVER['QUERY_STRING'], $query);
+        return $query;
     }
  
     /**
@@ -47,12 +57,11 @@ class BaseController
         exit;
     }
 
-    /**
-     * __call magic method.
-     * Error handler, called when a call to the api is made whih
-     */
-    public function __call($name, $arguments)
+    public function test()
     {
-        $this->sendOutput('', array('HTTP/1.1 404 Not Found'));
+       print($_SERVER['QUERY_STRING']);
+       $string = "Before";
+        parse_str($_SERVER['QUERY_STRING'], $string);
+       print_r($string);
     }
 }
