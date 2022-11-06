@@ -25,21 +25,6 @@
                             </button>
                         </div>
                     </div>
-
-                    <!-- <button
-                        type="button"
-                        @click="createUser()"
-                        class="btn btn-danger"
-                    >
-                        Create
-                    </button>
-                    <button
-                        type="button"
-                        @click="createUser()"
-                        class="btn btn-danger"
-                    >
-                        Create
-                    </button> -->
                 </form>
             </div>
         </div>

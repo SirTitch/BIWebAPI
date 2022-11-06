@@ -19,21 +19,26 @@ class UserController extends BaseController
         if (strtoupper($requestMethod) == 'GET') { // Check if the request is a GET
             try {
                 $userModel = new UserModel();
- 
-                // $intLimit = 10;
+
                 $initSearch ="";
                 $initOrderBy = "";
-                // if (isset($arrQueryStringParams['limit']) && $arrQueryStringParams['limit']) {
-                //     print($arrQueryStringParams['limit']);
-                //     $initSearch = $arrQueryStringParams['limit'];
-                // }
-                // print($arrQueryStringParams['search']);
+                $initFilterBy = "";
+                $initFilterValue = "";
+                $paramForFilter = "";
                 if (isset($arrQueryStringParams['searchTerm']) && $arrQueryStringParams['searchTerm']) {
                     $initSearch = $arrQueryStringParams['searchTerm'];
                 }
                 
                 if (isset($arrQueryStringParams['orderBy']) && $arrQueryStringParams['orderBy']) {
                     $initOrderBy = $arrQueryStringParams['orderBy'];
+                }
+
+                if (isset($arrQueryStringParams['filterBy']) && $arrQueryStringParams['filterBy']) {
+                    $initFilterBy = $arrQueryStringParams['filterBy'];
+                }
+                
+                if (isset($arrQueryStringParams['filterValue']) && $arrQueryStringParams['filterValue']) {
+                    $initFilterValue = $arrQueryStringParams['filterValue'];
                 }
 
                 // Handle which function to run based on the url request made
@@ -44,9 +49,18 @@ class UserController extends BaseController
                     $listFunction = "getClient";
                 } else if ($listType == "clientPolicy"){
                     $listFunction = "getClientPolocies";
+                }  else if ($listType == "clientPolicyFilter"){
+                    $listFunction = "getClientPolociesFilter"; 
+                } 
+
+                //Extend for other types
+                if (gettype($initFilterValue) == "string"){
+                    $paramForFilter = "s";
+                } else if (gettype($initFilterValue) == "integer"){
+                    $paramForFilter = "i";
                 }
                 // print($initOrderBy);
-                $arrUsers = $userModel->$listFunction($initSearch, $initOrderBy);
+                $arrUsers = $userModel->$listFunction($initSearch, $initOrderBy, $initFilterBy, $initFilterValue, $paramForFilter);
                 $responseData = json_encode($arrUsers);
             } catch (Error $e) {
                 $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';

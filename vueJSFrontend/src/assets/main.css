@@ -38,6 +38,9 @@ tr:hover {
     /* padding: 2rem; */
     /* border-left-width: 2px; */
     font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 a,

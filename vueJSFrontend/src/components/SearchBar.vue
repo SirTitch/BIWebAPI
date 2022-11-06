@@ -1,25 +1,24 @@
-<!-- Add Dropdown for filters(https://www.w3schools.com/howto/howto_js_dropdown.asp), for each policy label, and create the function  -->
+<!-- General SearchBar component that returns a search value to the parent  -->
 <template>
     <div class="container">
         <div class="row">
             <div>
-                <h2>Filters:</h2>
                 <form>
                     <div class="row">
                         <div class="searchBar">
-                            <label class="searchBarLabel">Client Name: </label>
+                            <!-- <label class="searchBarLabel">Client Name: </label> -->
                             <input
                                 type="text"
                                 class="searchBarinput"
-                                v-model="clientName"
-                                name="clientname"
-                                id="clientname"
-                                placeholder="Policy Type"
+                                v-model="searchText"
+                                name="searchText"
+                                id="searchText"
+                                placeholder=""
                             />
                             <button
                                 class="searchBarbutton"
                                 type="button"
-                                @click=""
+                                @click="handleSearch(searchText)"
                             >
                                 <i class="fa fa-search"></i>
                                 Search
@@ -34,32 +33,38 @@
 
 <script>
 export default {
-    name: 'SearchPolocies',
+    name: 'SearchBar',
     components: {},
     props: {
         method: { type: Function },
     },
     data() {
         return {
-            policySearch: '',
+            searchText: '',
         }
     },
 
-    methods: {},
+    methods: {
+        handleSearch(text) {
+            this.$emit('emitSearch', text)
+        },
+    },
 }
 </script>
 
 <style scoped>
 .searchBar {
-    padding: 5px;
+    /* padding: 5px; */
 }
 
 .searchBarLabel {
 }
 .searchBarinput {
     padding: 5px;
+    font-size: 16px;
 }
 .searchBarbutton {
     padding: 5px;
+    font-size: 16px;
 }
 </style>

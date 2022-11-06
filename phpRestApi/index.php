@@ -7,7 +7,7 @@ require __DIR__ . "/inc/bootstrap.php";
 // https://localhost/index.php/{MODULE_NAME}/{METHOD_NAME}?limit={LIMIT_VALUE} 
 
 //Start PHP server
-//php -S 127.0.0.1:8000 -t public
+//php -S localhost:5174 -t public
 //initialize URI segments into a variable
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); 
 $uri = explode( '/', $uri );

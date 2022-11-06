@@ -4,7 +4,24 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <div class="container"></div>
-    <div></div>
+    <div class="filterBar">
+        <!--  Filter & Search In Row -->
+        <FilterDropdown
+            :key="searchBarKey"
+            :values="filterValues"
+            @emitFilter="updateFilterBy"
+        />
+        <SearchBar :key="searchBarKey" @emitSearch="searchPolicy" />
+        <button
+            v-if="filterBy != '' || searchBy != ''"
+            type="button"
+            @click="clearFilter()"
+            class="headerButton"
+        >
+            <i class="fa fa-close"></i>
+            Clear
+        </button>
+    </div>
     <div class="tableWrapper">
         <table class="table table-bordered">
             <thead>
@@ -50,9 +67,15 @@
 </template>
 
 <script>
+import FilterDropdown from './FilterDropdown.vue'
+import SearchBar from './SearchBar.vue'
+import { ref } from 'vue'
 export default {
     name: 'Polocies',
-    components: {},
+    components: {
+        FilterDropdown,
+        SearchBar,
+    },
     props: {
         method: { type: Function },
         clientId: { type: Number },
@@ -62,9 +85,30 @@ export default {
             polociesArr: [],
             displayPolicies: false,
             responseAvailable: false,
+            filterValues: [
+                { id: 1, label: 'Policy Id', value: 'p.policy_id' },
+                { id: 2, label: 'Policy Type', value: 'p.policy_type' },
+                { id: 3, label: 'Policy Premium', value: 'p.policy_premium' },
+                { id: 4, label: 'Insurer name', value: 'p.insurer_name' },
+                { id: 5, label: 'Customer Name', value: 'cr.customer_name' },
+                {
+                    id: 6,
+                    label: 'Customer Address',
+                    value: 'cr.customer_address',
+                },
+            ],
+            filterBy: '',
+            searchBy: '',
+            searchBarKey: ref(0),
         }
     },
     methods: {
+        clearFilter() {
+            this.FilterPolicy('p.policy_id')
+            this.searchBarKey += 1
+            this.filterBy = ''
+            this.searchBy = ''
+        },
         FilterPolicy(orderBy) {
             let orderByVar = 'p.policyId'
             if (this.clientId) {
@@ -110,6 +154,54 @@ export default {
                 this.displayPolicies = true
             }
         },
+        updateFilterBy(value) {
+            this.filterBy = value
+        },
+        searchPolicy(searchValue) {
+            this.searchBy = searchValue
+            let orderByVar = 'p.policyId'
+            if (this.clientId) {
+                let id = this.clientId
+                orderByVar = 'p.policy_Id'
+                fetch(
+                    'http://localhost:5174/index.php/user/list/clientPolicyFilter?searchTerm=' +
+                        id +
+                        '&orderBy=' +
+                        orderByVar +
+                        '&filterBy=' +
+                        this.filterBy +
+                        '&filterValue=' +
+                        searchValue,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'text/plain',
+                        },
+                    }
+                )
+                    .then((response) => {
+                        console.log(response)
+                        if (response.ok) {
+                            return response.json()
+                        } else {
+                            alert(
+                                'Server returned ' +
+                                    response.status +
+                                    ' : ' +
+                                    response.statusText
+                            )
+                        }
+                    })
+                    .then((response) => {
+                        this.polociesArr = response
+                        this.responseAvailable = true
+                    })
+                    .catch((err) => {
+                        console.log('ERROR LOG', err)
+                    })
+                this.displayPolicies = true
+            }
+        },
     },
     beforeMount() {
         this.FilterPolicy('p.policy_id')
@@ -132,14 +224,14 @@ export default {
     cursor: pointer;
 }
 .editButton {
-    /* border: none; */
-    /* background-color: inherit; */
-    /* color: inherit; */
     text-align: center;
-    /* text-decoration: none; */
     cursor: pointer;
     height: 100%;
 }
-.tableContainer {
+.filterBar {
+    padding: 1%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 </style>
