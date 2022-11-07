@@ -53,7 +53,13 @@ export default {
 </script>
 
 <style scoped>
+.container {
+    display: flex;
+    flex: 2;
+}
 .searchBar {
+    display: flex;
+    flex: 1;
     /* padding: 5px; */
 }
 
@@ -62,9 +68,12 @@ export default {
 .searchBarinput {
     padding: 5px;
     font-size: 16px;
+    display: flex;
+    flex: 1;
 }
 .searchBarbutton {
-    padding: 5px;
+    padding-top: 2.5px;
+    padding-bottom: 2.5px;
     font-size: 16px;
 }
 </style>

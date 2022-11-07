@@ -58,16 +58,18 @@ export default {
 </script>
 <style scoped>
 .container {
-    min-width: 15%;
-    max-width: 50%;
     display: flex;
+    flex: 1;
     background-color: #ff6900;
 }
 .dropbtn {
+    display: flex;
     background-color: #ff6900;
-    /* padding: 5px; */
     color: white;
-    padding: 6px;
+
+    height: 100%;
+    padding-top: 6px;
+    padding-bottom: 6px;
     font-size: 16px;
     border: none;
     cursor: pointer;
@@ -79,8 +81,8 @@ export default {
     background-color: #eb9d65;
 }
 .dropdown {
-    position: relative;
-    display: inline-block;
+    display: flex;
+    flex: 1;
 }
 
 .dropdown-content {

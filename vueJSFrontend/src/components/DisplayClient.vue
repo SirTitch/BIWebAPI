@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2>Clients</h2>
+        <h2 class="header1">Clients</h2>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -41,3 +41,13 @@ export default {
     },
 }
 </script>
+<style scoped>
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.header1 {
+    text-align: center;
+}
+</style>

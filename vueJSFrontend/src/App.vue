@@ -1,9 +1,7 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
 import Header from './components/Header.vue'
 import SearchClients from './components/SearchClients.vue'
-import Polocies from './components/Polocies.vue'
+import Policies from './components/Policies.vue'
 </script>
 
 <template>
@@ -12,19 +10,39 @@ import Polocies from './components/Polocies.vue'
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <!-- <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" /> -->
+    <div class="tab">
+        <button
+            class="tablinks"
+            @click="this.openTab('client', 'Client', true)"
+        >
+            Clients
+        </button>
+        <button
+            class="tablinks"
+            @click="this.openTab('policy', 'Policy', true)"
+        >
+            Policy
+        </button>
+    </div>
 
     <main>
-        <SearchClients
-            v-if="!displayPolicies"
-            @display-Policies="displayPoliciesFunction"
-        />
-        <Polocies
-            v-if="displayPolicies && responseAvailable"
-            @displaypolicies="displayPoliciesFunction"
-            :polocies="clientPolocies"
-            :clientId="clientId"
-        />
+        <!-- Tab content -->
+        <div id="Client" class="tabcontent">
+            <SearchClients
+                v-if="tabIndex == 'client'"
+                @display-Policies="displayPoliciesFunction"
+            />
+        </div>
+
+        <div id="Policy" class="tabcontent">
+            <Policies
+                v-if="tabIndex == 'policy'"
+                @displaypolicies="displayPoliciesFunction"
+                :policies="clientPolicies"
+                :clientId="clientId"
+                :isFromClient="isFromClient"
+            />
+        </div>
     </main>
 </template>
 <script>
@@ -35,15 +53,15 @@ export default {
         return {
             displayPolicies: false,
             clientId: '',
-            clientPolocies: [],
+            clientPolicies: [],
             responseAvailable: false,
+            tabIndex: 'client',
         }
     },
     emits: ['displaypolicies'],
     methods: {
+        // Fetches the clients Poloices from the api and returns it, setting the variables to show the polocies tab
         displayPoliciesFunction(id, orderBy) {
-            // this.responseAvailable = false
-            // this.displayPolicies = false
             let orderByVar = 'p.policyId'
             if (id !== this.clientId) {
                 this.clientId = id
@@ -58,7 +76,6 @@ export default {
                         orderByVar,
                     {
                         method: 'GET',
-                        // mode: 'no-cors',
                         headers: {
                             'Content-Type': 'text/plain',
                         },
@@ -78,45 +95,87 @@ export default {
                         }
                     })
                     .then((response) => {
-                        console.log('-----------------------', response)
-                        this.clientPolocies = response
+                        this.clientPolicies = response
                         this.responseAvailable = true
                     })
                     .catch((err) => {
                         console.log('ERROR LOG', err)
                     })
-                this.displayPolicies = true
+                this.openTab('policy', 'Policy', false)
+                this.isFromClient = true
+            }
+        },
+        openTab(id, cityName, isTabBar) {
+            // Declare all variables
+            var i, tabcontent, tablinks
+            this.tabIndex = id
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName('tabcontent')
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = 'none'
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName('tablinks')
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(
+                    ' active',
+                    ''
+                )
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(cityName).style.display = 'block'
+            document.getElementById(cityName).className += ' active'
+            if (isTabBar) {
+                //Reset Client Variables for filter
+                this.isFromClient = false
+                this.clientId = ''
             }
         },
     },
-    start(_, { emit }) {},
+    mounted() {
+        //Set to the client tab on entry
+        this.openTab('client', 'Client', true)
+    },
 }
 </script>
 
 <style scoped>
-/* .logo {
-  display: block;
-  margin: 0 auto 2rem;
-} */
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    /* border: 1px solid #ccc; */
+    background-color: #ff6900;
+}
 
-/* @media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    color: #fff;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #f8a163;
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-center;
-    flex-wrap: wrap;
-    border-width: 2px;
-    border-color: brown;
-    background-color:crimson;
-  }
-} */
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
 </style>

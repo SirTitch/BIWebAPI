@@ -32,8 +32,10 @@ class BaseController
      */
     protected function getQueryStringParams()
     {
-        $query;
-        parse_str($_SERVER['QUERY_STRING'], $query);
+        $query = "";
+        if (array_key_exists('QUERY_STRING', $_SERVER) ){
+            parse_str($_SERVER['QUERY_STRING'], $query);
+        }
         return $query;
     }
  
@@ -59,9 +61,9 @@ class BaseController
 
     public function test()
     {
-       print($_SERVER['QUERY_STRING']);
+    //    print($_SERVER['QUERY_STRING']);
        $string = "Before";
         parse_str($_SERVER['QUERY_STRING'], $string);
-       print_r($string);
+    //    print_r($string);
     }
 }

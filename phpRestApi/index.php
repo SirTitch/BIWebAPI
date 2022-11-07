@@ -1,13 +1,23 @@
 <?php  
-header('Access-Control-Allow-Origin: *'); 
-// header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method,Access-Control-Request-Headers, Authorization");
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 header("HTTP/1.1 200 OK");
 require __DIR__ . "/inc/bootstrap.php";
-// https://localhost/index.php/{MODULE_NAME}/{METHOD_NAME}?limit={LIMIT_VALUE} 
 
 //Start PHP server
-//php -S localhost:5174 -t public
+//in phpRestApi/
+//php -S localhost:5174
+//in vueJSFrontend/
+//run npm install
+//Start Dev VueJs by npm run dev
+//Open MYSQL
+//Update phpRestApi/inc/config variables to equal your current mySQL creds
+//run the BrokerSchema.sql Commands on the msql command line
+//Now the App Should run
+
 //initialize URI segments into a variable
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH); 
 $uri = explode( '/', $uri );
