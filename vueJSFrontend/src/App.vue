@@ -11,16 +11,10 @@ import Policies from './components/Policies.vue'
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <div class="tab">
-        <button
-            class="tablinks"
-            @click="this.openTab('client', 'Client', true)"
-        >
+        <button class="tablinks" @click="openTab('client', 'Client', true)">
             Clients
         </button>
-        <button
-            class="tablinks"
-            @click="this.openTab('policy', 'Policy', true)"
-        >
+        <button class="tablinks" @click="openTab('policy', 'Policy', true)">
             Policy
         </button>
     </div>
@@ -70,7 +64,7 @@ export default {
                     orderByVar = orderBy
                 }
                 fetch(
-                    'http://localhost:5174/index.php/user/list/clientPolicy?searchTerm=' +
+                    'https://web-api-code-challenge.herokuapp.com/index.php/user/list/clientPolicy?searchTerm=' +
                         id +
                         '&orderBy=' +
                         orderByVar,

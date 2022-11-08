@@ -76,6 +76,7 @@ import SearchBar from './SearchBar.vue'
 import { ref } from 'vue'
 import NewPolicy from './NewPolicy.vue'
 import EditPolicy from './EditPolicy.vue'
+import { SERVERURL } from '../constants'
 export default {
     name: 'Policies',
     components: {
@@ -129,7 +130,8 @@ export default {
                     orderByVar = orderBy
                 }
                 fetch(
-                    'http://localhost:5174/index.php/user/list/clientPolicy?searchTerm=' +
+                    SERVERURL +
+                        'index.php/user/list/clientPolicy?searchTerm=' +
                         id +
                         '&orderBy=' +
                         orderByVar,
@@ -178,7 +180,8 @@ export default {
                 let id = this.clientId
                 orderByVar = 'p.policy_Id'
                 fetch(
-                    'http://localhost:5174/index.php/user/list/clientPolicyFilter?searchTerm=' +
+                    SERVERURL +
+                        'index.php/user/list/clientPolicyFilter?searchTerm=' +
                         id +
                         '&orderBy=' +
                         orderByVar +
@@ -218,7 +221,7 @@ export default {
         },
         //Fetches all the policies when just viewing all the policies
         getAllPolicies() {
-            fetch('http://localhost:5174/index.php/user/list/allPolicies', {
+            fetch(SERVERURL + 'index.php/user/list/allPolicies', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'text/plain',

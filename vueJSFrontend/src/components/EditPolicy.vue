@@ -22,6 +22,7 @@
 import GeneralDropdown from './GeneralDropdown.vue'
 import PolicyModal from './PolicyModal.vue'
 import { ref } from 'vue'
+import { SERVERURL } from '../constants'
 export default {
     name: 'EditPolicy',
     components: {
@@ -99,7 +100,7 @@ export default {
             }
         },
         fetchCustomers() {
-            fetch('http://localhost:5174/index.php/user/list/allCustomers', {
+            fetch(SERVERURL + 'index.php/user/list/allCustomers', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'text/plain',
@@ -139,7 +140,8 @@ export default {
         //Creates a new customer object using the api and data provided in the modal.
         async createCutomer(name, address) {
             return await fetch(
-                'http://localhost:5174/index.php/user/insert/customer' +
+                SERVERURL +
+                    'index.php/user/insert/customer' +
                     '?customerName=' +
                     name +
                     '&customerAddress=' +
@@ -175,7 +177,8 @@ export default {
         //Triggers the update function on the api and returns when its true
         async updatePolicy(type, premium, insurer, customer, id) {
             return await fetch(
-                'http://localhost:5174/index.php/user/update/policy' +
+                SERVERURL +
+                    'index.php/user/update/policy' +
                     '?policyType=' +
                     type +
                     '&policyPremium=' +

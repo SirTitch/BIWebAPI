@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { SERVERURL } from '../constants'
 import DisplayClient from './DisplayClient.vue'
 export default {
     name: 'SearchClients',
@@ -59,7 +60,8 @@ export default {
         clientSearch() {
             this.responseAvailable = false
             fetch(
-                'http://localhost:5174/index.php/user/list/client?searchTerm=' +
+                SERVERURL +
+                    'index.php/user/list/client?searchTerm=' +
                     this.clientName +
                     '',
                 {
@@ -93,7 +95,7 @@ export default {
         },
         getAllClients() {
             this.responseAvailable = false
-            fetch('http://localhost:5174/index.php/user/list/allClient', {
+            fetch(SERVERURL + 'index.php/user/list/allClient', {
                 method: 'GET',
                 // mode: 'no-cors',
                 headers: {

@@ -18,6 +18,7 @@
 import GeneralDropdown from './GeneralDropdown.vue'
 import PolicyModal from './PolicyModal.vue'
 import { ref } from 'vue'
+import { SERVERURL } from '../constants'
 export default {
     name: 'NewPolicy',
     components: {
@@ -99,7 +100,7 @@ export default {
         },
         //Gets all the customers for the dropdown
         fetchCustomers() {
-            fetch('http://localhost:5174/index.php/user/list/allCustomers', {
+            fetch(SERVERURL + 'index.php/user/list/allCustomers', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'text/plain',
@@ -139,7 +140,8 @@ export default {
         //Creates a customer object in the DB from the variables entered by the user via the modal, and returns the insterted ID.
         async createCutomer(name, address) {
             return await fetch(
-                'http://localhost:5174/index.php/user/insert/customer' +
+                SERVERURL +
+                    'index.php/user/insert/customer' +
                     '?customerName=' +
                     name +
                     '&customerAddress=' +
@@ -175,7 +177,8 @@ export default {
         //Creates the policy object via the rest api, and returns the objectId
         async createPolicy(type, premium, insurer, customer) {
             return await fetch(
-                'http://localhost:5174/index.php/user/insert/policy' +
+                SERVERURL +
+                    'index.php/user/insert/policy' +
                     '?policyType=' +
                     type +
                     '&policyPremium=' +
@@ -215,7 +218,8 @@ export default {
         //Creates the linking object between a client and a policy, using the new id provided from @createPolicy
         async createClientPolicy(policyId) {
             return await fetch(
-                'http://localhost:5174/index.php/user/insert/clientPolicy' +
+                SERVERURL +
+                    'index.php/user/insert/clientPolicy' +
                     '?clientId=' +
                     this.clientId +
                     '&policyId=' +
