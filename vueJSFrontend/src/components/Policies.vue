@@ -217,6 +217,46 @@ export default {
                         console.log('ERROR LOG', err)
                     })
                 this.displayPolicies = true
+            } else {
+                orderByVar = 'p.policy_Id'
+                fetch(
+                    SERVERURL +
+                        'index.php/user/list/allPoliciesFilter?searchTerm=' +
+                        '' +
+                        '&orderBy=' +
+                        orderByVar +
+                        '&filterBy=' +
+                        this.filterBy +
+                        '&filterValue=' +
+                        searchValue,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'text/plain',
+                        },
+                    }
+                )
+                    .then((response) => {
+                        console.log(response)
+                        if (response.ok) {
+                            return response.json()
+                        } else {
+                            alert(
+                                'Server returned ' +
+                                    response.status +
+                                    ' : ' +
+                                    response.statusText
+                            )
+                        }
+                    })
+                    .then((response) => {
+                        this.policiesArr = response
+                        this.responseAvailable = true
+                    })
+                    .catch((err) => {
+                        console.log('ERROR LOG', err)
+                    })
+                this.displayPolicies = true
             }
         },
         //Fetches all the policies when just viewing all the policies

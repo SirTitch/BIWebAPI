@@ -57,6 +57,8 @@ class UserController extends BaseController
                     $listFunction = "getAllClients";
                 }  else if ($listType == "allPolicies"){
                     $listFunction = "getAllPolicies";
+                } else if ($listType == "allPoliciesFilter"){
+                    $listFunction = "getAllPoliciesFilter";
                 }
 
                 //Extend for other types

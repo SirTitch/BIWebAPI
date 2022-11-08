@@ -24,6 +24,10 @@ class UserModel extends Database
         return $this->select("SELECT * FROM policy JOIN customer ON policy.customer = customer.customer_id ORDER BY policy_id ASC", []);
     }
 
+    public function getAllPoliciesFilter($search, $orderBy, $filterBy, $filterValue, $paramForFilter)
+    {
+        return $this->select("SELECT * FROM policy p JOIN customer cr ON p.customer = cr.customer_id WHERE + $filterBy LIKE ? ORDER BY p.policy_id ASC", [$paramForFilter, $filterValue]);
+    }
     public function getClient($search)
     {
         return $this->select("SELECT * FROM client c WHERE c.client_name LIKE ? ORDER BY c.client_id ASC ", ["s", $search]);
