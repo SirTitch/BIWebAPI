@@ -1,6 +1,5 @@
 # BIWebAPI
 
-The app is currently being hosted here: https://webapicodechallenge.tiiny.site/# (No Longer Functioning)
 
 With Heroku running the php REST API. And remotemysql running the DB.
 
